@@ -25,42 +25,44 @@ def getTotals():
 	rows = rowsRE.findall(t)
 	#print(len(rows))
 	year = 0
-	for r in rows:
-		data = dataRE.findall(r)
-		if "has-rs" in r: # start of a year
+	with open("ElectionScrao.txt", "w") as f:
+		for r in rows:
+			data = dataRE.findall(r)
+			if "has-rs" in r:
+				# start of a year
 			# first link is the year.
-			yeardata =  strongRE.findall(data[0])[0]
-			links = linkRE.findall(yeardata)
-			#print("Links:", links)
-			if len(links) == 0:   #2020 is not in a link :(
-				year = 2020
-			else:
-				year = int(getTagContent(links[0]))
-
-			# first row has year, so candidate name = 1; ev = 3, pop = 4
-			candLinks = linkRE.findall(data[1])
-			if len(candLinks) == 0:
-				candName = getTagContent(data[1])
-			else:
-				linkCand = linkRE.findall(data[1])
-				candName = getTagContent(linkCand[0])
-			ev = getTagContent(data[3])
-			pop = getTagContent(data[4])
-			if pop != "" and ev != "":
-				print(year, candName, ev, pop)
-		else:
-			# other rows don't have year, so candidate name = 0; ev = 2, pop = 3
-			if year> 0:
-				# print(data)
-				candLinks = linkRE.findall(data[0])
-				if len(candLinks) == 0:
-					candName = getTagContent(data[0])
+				yeardata =  strongRE.findall(data[0])[0]
+				links = linkRE.findall(yeardata)
+				#print("Links:", links)
+				if len(links) == 0:   #2020 is not in a link :(
+					year = 2020
 				else:
-					linkCand = linkRE.findall(data[0])
+					year = int(getTagContent(links[0]))
+
+				# first row has year, so candidate name = 1; ev = 3, pop = 4
+				candLinks = linkRE.findall(data[1])
+				if len(candLinks) == 0:
+					candName = getTagContent(data[1])
+				else:
+					linkCand = linkRE.findall(data[1])
 					candName = getTagContent(linkCand[0])
-				ev = getTagContent(data[2])
-				pop = getTagContent(data[3])
+				ev = getTagContent(data[3])
+				pop = getTagContent(data[4])
 				if pop != "" and ev != "":
 					print(year, candName, ev, pop)
+			else:
+				# other rows don't have year, so candidate name = 0; ev = 2, pop = 3
+				if year> 0:
+					# print(data)
+					candLinks = linkRE.findall(data[0])
+					if len(candLinks) == 0:
+						candName = getTagContent(data[0])
+					else:
+						linkCand = linkRE.findall(data[0])
+						candName = getTagContent(linkCand[0])
+					ev = getTagContent(data[2])
+					pop = getTagContent(data[3])
+					if pop != "" and ev != "":
+						f.write(f"{year} {candName} {ev} {pop}\n")
 
 getTotals()
