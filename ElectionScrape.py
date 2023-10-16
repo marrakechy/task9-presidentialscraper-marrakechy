@@ -1,5 +1,5 @@
-import requests
 import re
+import requests
 
 def getTagContent(tag):
 	contentRE = re.compile(r">([\S\n\t ]*?)<")
@@ -15,7 +15,8 @@ def getTotals():
 	strongRE = re.compile(r"<strong>([\S\n\t ]*?)</strong>")  # get Strong Data  (Years)
 	rowSpanRE = re.compile(r"rowspan=\"(\d+)")
 
-	r = requests.get("https://www.britannica.com/topic/electoral-college/U-S-election-results" )
+	r = requests.get("https://www.britannica.com/topic/electoral-college/U-S-election-results")
+
 	txt = r.text
 	#print(txt)
 	tables = tableRE.findall(txt)
