@@ -66,3 +66,5 @@ def getTotals():
 						f.write(f"{year} {candName} {ev} {pop}\n")
 
 getTotals()
+
+
