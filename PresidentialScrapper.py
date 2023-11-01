@@ -28,12 +28,15 @@ from bs4 import BeautifulSoup
 
 url = "https://www.presidency.ucsb.edu/statistics/elections/2020"
 page = requests.get(url)
-soup = BeautifulSoup(page.text, 'html')
-t = soup.find_all ("table")
-for table in t:
-    rows = table.find('tr')
-    for row in rows:
-        print(row)
+soup = BeautifulSoup(page.text, 'html.parser')
+t = soup.find_all ('table')[0]
+rows = t.find_all('tr')
+# for table in t:
+#     rows = table.find('tr')
+for row in rows:
+    columns = row.find_all('td')
+    for column in columns:
+        print(column.text)
 
 
 
