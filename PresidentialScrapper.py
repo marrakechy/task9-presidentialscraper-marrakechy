@@ -38,6 +38,9 @@ table = tables[0]
 
 data_rows = table.find_all('tr')[1:]
 
+#print(data_rows)
+
+#0 2 4 5
 with open('ElectionScrape.txt', 'w') as file:
     #the header to the file
     file.write("Year,State,Candidate Name,Party,Popular Vote,Electoral Votes\n")
@@ -45,18 +48,19 @@ with open('ElectionScrape.txt', 'w') as file:
     for row in data_rows:
         columns = row.find_all('td')
 
-        if len(columns) == 11:  #main data rows have 11 columns
+        if len(columns) == 11: #main data rows have 11 columns
             state = columns[0].text.strip()
 
             if 'CD' in state or 'STATE' in state or 'TOTAL VOTES' in state:
                 continue
-            dem_name = columns[1].text.strip()
+            #dem_name = columns[2].text.strip()
             dem_votes = columns[2].text.strip()
-            dem_ev = columns[3].text.strip()
+            dem_ev = columns[4].text.strip()
 
-            rep_name = columns[4].text.strip()
+            #rep_name = columns[4].text.strip()
             rep_votes = columns[5].text.strip()
-            rep_ev = columns[6].text.strip()
+            rep_ev = columns[7].text.strip()
 
-            file.write(f"2020, {state} , {dem_name} , Democratic , {dem_votes} , {dem_ev} \n")
-            file.write(f"2020, {state} , {rep_name} , Republican , {rep_votes} , {rep_ev} \n")
+
+            file.write(f"2020, {state} , candidate name1  , Democratic , {dem_votes}, {dem_ev}  \n")
+            file.write(f"2020, {state} , candidate name2  , Republican , {rep_votes}, {rep_ev} \n")
