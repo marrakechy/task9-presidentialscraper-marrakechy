@@ -1,7 +1,7 @@
 # def getPresData(year):
 # 	topic = str(year) +"_United_States_presidential_election"
 # 	r = requests.get("https://www.presidency.ucsb.edu/statistics/elections/" +topic)
-#
+
 # 	txt = r.text
 # 	titleRE = re.compile(r"<title.*?</title>")
 # 	titles = titleRE.findall(txt)
