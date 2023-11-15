@@ -31,7 +31,7 @@ def PresData(year):
     soup = BeautifulSoup(page.text, 'html.parser')
 
 
-    if year in range(1824, 2024):
+    if year in range(1824, 2016):
 
         tables = soup.find_all('table')
         if not tables:
@@ -41,7 +41,7 @@ def PresData(year):
         table = tables[0]
         data_rows = table.find_all('tr')[1:]
 
-        with open('ElectionScrape1824.txt', 'a') as file:
+        with open('ElectionScrape.txt', 'a') as file:
             file.write("Year,State,Candidate,Party,Popular Vote,Electoral Votes\n")
 
             for row in data_rows:
@@ -65,32 +65,6 @@ def PresData(year):
 
                 file.write(f"{year} , {state} , {party1} , {votes_1} , {ev_1}\n")
                 file.write(f"{year} , {state} , {party2} , {votes_2} , {ev_2}\n")
-
-
-    elif year in range(1836, 1844):
-        pass
-
-    elif year in range(1870, 1888):
-        pass
-
-    elif year in range(1896, 1920):
-        pass
-
-    elif year in range(1928, 1944):
-        pass
-
-    elif year in range(1952, 1964):
-        pass
-
-    elif year in range(1972, 1976):
-        pass
-
-    elif year in range(1984, 1988):
-        pass
-
-    elif year in range(2004, 2012):
-        pass
-
 
     else:
 
