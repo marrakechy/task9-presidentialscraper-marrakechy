@@ -24,47 +24,111 @@ import requests
 from bs4 import BeautifulSoup
 
 def PresData(year):
+
     #topic = str(year) +"_United_States_presidential_election"
     url = (f"https://www.presidency.ucsb.edu/statistics/elections/{year}" )
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
 
-    #find all tables
-    tables = soup.find_all('table')
-    if not tables:
-        print("No tables found!")
-        exit()
 
-    #find specific table we working with
-    table = tables[0]
+    if year in range(1824, 2024):
 
-    data_rows = table.find_all('tr')[1:]
+        tables = soup.find_all('table')
+        if not tables:
+            print(f"No tables found for year {year}!")
+            return
 
-    #print(data_rows)
+        table = tables[0]
+        data_rows = table.find_all('tr')[1:]
 
-    #0 2 4 5
-    with open('ElectionScrape.txt', 'a') as file:
-        #the header to the file
-        file.write("Year,State,Candidate Name,Party,Popular Vote,Electoral Votes\n")
+        with open('ElectionScrape1824.txt', 'a') as file:
+            file.write("Year,State,Candidate,Party,Popular Vote,Electoral Votes\n")
 
-        for row in data_rows:
-            columns = row.find_all('td')
+            for row in data_rows:
+                columns = row.find_all('td')
 
-            if len(columns) == 11:
-                state = columns[0].text.strip()
-
-                if 'CD' in state or 'STATE' in state or 'TOTAL VOTES' in state:
+                # Skip header or irrelevant rows
+                if len(columns) < 6 or 'STATE' in columns[0].text:
                     continue
 
-                dem_votes = columns[2].text.strip()
-                dem_ev = columns[4].text.strip()
+                state = columns[0].text.strip()
+                if state == "" or state == "Votes":
+                    continue
 
-                rep_votes = columns[5].text.strip()
-                rep_ev = columns[7].text.strip()
+                votes_1 = columns[2].text.strip()
+                party1 = "Candidate name1"
+                ev_1 = columns[4].text.strip()
+
+                votes_2 = columns[5].text.strip()
+                party2 = "candidate name2"
+                ev_2 = columns[7].text.strip()
+
+                file.write(f"{year} , {state} , {party1} , {votes_1} , {ev_1}\n")
+                file.write(f"{year} , {state} , {party2} , {votes_2} , {ev_2}\n")
 
 
-                file.write(f"{year}, {state} , candidate name1  , Democratic , {dem_votes}, {dem_ev}  \n")
-                file.write(f"{year}, {state} , candidate name2  , Republican , {rep_votes}, {rep_ev} \n")
+    elif year in range(1836, 1844):
+        pass
+
+    elif year in range(1870, 1888):
+        pass
+
+    elif year in range(1896, 1920):
+        pass
+
+    elif year in range(1928, 1944):
+        pass
+
+    elif year in range(1952, 1964):
+        pass
+
+    elif year in range(1972, 1976):
+        pass
+
+    elif year in range(1984, 1988):
+        pass
+
+    elif year in range(2004, 2012):
+        pass
+
+
+    else:
+
+        tables = soup.find_all('table')
+        if not tables:
+            print("No tables found!")
+            exit()
+
+        #find specific table we working with
+        table = tables[0]
+
+        data_rows = table.find_all('tr')[1:]
+
+        #print(data_rows)
+
+        #0 2 4 5
+        with open('ElectionScrape.txt', 'a') as file:
+            #the header to the file
+            file.write("Year,State,Candidate Name,Party,Popular Vote,Electoral Votes\n")
+
+            for row in data_rows:
+                columns = row.find_all('td')
+
+                if len(columns) == 11:
+                    state = columns[0].text.strip()
+
+                    if 'CD' in state or 'STATE' in state or 'TOTAL VOTES' in state:
+                        continue
+
+                    dem_votes = columns[2].text.strip()
+                    dem_ev = columns[4].text.strip()
+
+                    rep_votes = columns[5].text.strip()
+                    rep_ev = columns[7].text.strip()
+
+
+                    file.write(f"{year}, {state} , candidate name1  , Democratic , {dem_votes}, {dem_ev}  \n")
+                    file.write(f"{year}, {state} , candidate name2  , Republican , {rep_votes}, {rep_ev} \n")
 
 def years():
 	year = 1824
