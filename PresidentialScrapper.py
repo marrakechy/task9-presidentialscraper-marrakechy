@@ -29,6 +29,7 @@ def PresData(year):
     url = (f"https://www.presidency.ucsb.edu/statistics/elections/{year}" )
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
+    print(soup)
 
 
     if year in range(1824, 2016):
@@ -44,10 +45,10 @@ def PresData(year):
         with open('ElectionScrape.txt', 'a') as file:
             file.write("Year,State,Candidate,Party,Popular Vote,Electoral Votes\n")
 
+
             for row in data_rows:
                 columns = row.find_all('td')
 
-                # Skip header or irrelevant rows
                 if len(columns) < 6 or 'STATE' in columns[0].text:
                     continue
 
@@ -75,7 +76,6 @@ def PresData(year):
 
         #find specific table we working with
         table = tables[0]
-
         data_rows = table.find_all('tr')[1:]
 
         #print(data_rows)
